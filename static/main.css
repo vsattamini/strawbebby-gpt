@@ -13,6 +13,10 @@
   font-weight: bold;
   font-style: normal;
 }
+* {
+  background-color: #080808;
+  color:#ffffff
+}
 input {
   font-size: 16px;
   line-height: 24px;
@@ -20,14 +24,22 @@ input {
   font-family: "ColfaxAI", Helvetica, sans-serif;
 }
 .icon {
-  width: 34px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 15%;
 }
 h3 {
-  font-size: 32px;
-  line-height: 40px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align:center;
+  font-size: 50px;
+  line-height: 55px;
   font-weight: bold;
-  color: #202123;
-  margin: 16px 0 40px;
+  color: #ffffff;
+  margin: auto 0 auto;
+  padding: 1%;
 }
 /*
 input[type="text"] {
@@ -62,9 +74,7 @@ border: 1px solid #999;
 page-break-inside: avoid;
 display: block;
 padding: 3px 3px 2px;
-margin: 0 0 10px;
 /*font-size: 13px;*/
-line-height: 20px;
 white-space: pre-wrap;
 border: 1px solid #ccc;
 border: 1px solid rgba(0, 0, 0, 0.15);
@@ -74,6 +84,10 @@ border-radius: 4px;
 font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
 font-size: 12px;
 width: 100%;
+}
+.role{
+  background-color: #840000;
+  outline: none;
 }
 
 table {
@@ -104,13 +118,13 @@ td, th {
 
 th {
   justify-self: center;
-  background-color: forestgreen;
+  background-color: #840000;
   color: white;
   text-align: left;
 }
 
 tr:nth-child(even) {
-  background-color: forestgreen;
+  background-color: #840000;
   color: whitesmoke;
   justify-items: right;
 }
@@ -120,7 +134,7 @@ a {
 }
 
 button:hover {
-  background-color: #2d8346;
+  background-color: #994242;
 }
 
 /* rounded table */
@@ -128,7 +142,7 @@ button:hover {
   border-collapse: collapse;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
 }
 .table-rounded td,
 .table-rounded th {
@@ -138,9 +152,10 @@ button:hover {
 
 /* rounded textarea */
 .textarea-rounded {
-  border-radius: 10px;
-  border: none;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  border: solid #ffffff;
+  border-top: none;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
   padding: 10px 15px;
   font-size: 16px;
   resize: none;
@@ -155,7 +170,7 @@ button:hover {
   padding: 12px 20px;
   font-size: 16px;
   cursor: pointer;
-  background-color: forestgreen;
+  background-color: #840000;
   color: #fff;
   border: none;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
@@ -167,5 +182,5 @@ button:hover {
 }
 
 .btn-rounded:hover {
-  background-color: #FFD43B;
+  background-color: #994242;
 }

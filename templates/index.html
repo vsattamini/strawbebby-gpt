@@ -1,19 +1,26 @@
 <!DOCTYPE html>
 <head>
-	<title>OpenAI Chat By GPT-3.5-Turbo</title>
+	<title>Strawbebby Fields Forever</title>
 	<link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" />
 	<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<link rel="icon" type="image/x-icon" href="../static/favicon.png">
 </head>
 
 <body>
 	<img src="{{ url_for('static', filename='logo.png') }}" class="icon" />
-	<a href="/log">log</a>
-	<h3>ChatGPT By ChatGPT</h3>
+	<h3>Strawbebby GPT</h3>
 	<form action="/" method="post" style="text-align: center;">
-		<label for="model">Model</label>
+		<label for="model">Select Model:</label>
+		<br>
 		<select id="model" name="model">
-			<option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
+			<option value="gpt-3.5-turbo-16k">Chat-GPT: Standard, more knowledge</option>
+			<option value="gpt-4">GPT-4: Smarater but $$$ and short texts :(</option>
+		</select><br>
+		<label for="subject">Select Subject:</label>
+		<br>
+		<select id="subject" name="Subject">
+			<option value="Skew Deviation">Skew Deviation</option>
 		</select><br>
 
 		{% if messages %}
@@ -23,17 +30,24 @@
 				<tr>
 					<th>Role</th>
 					<th>Content</th>
-					<th>Tokens</th>
+					<!--<th>Tokens</th>-->
 				</tr>
 			</thead>
 			<tbody>
-				{% for i in range(n) %}
 				<tr>
-					<td>{{ messages[i]['role'] }}</td>
+					<td class="pre role">assistant</td>
+					<td>
+						<div class="pre">My name is Jolene, and I'll be your assistant for today. Please remember that I do make quite a few mistakes, as I am learning. That being said, how may I assist you today? </div>
+					</td>
+					<!--<td>{{ tokens[i] }}</td>-->
+				</tr>
+				{% for i in range(n) if i >=1 %}
+				<tr>
+					<td class="pre role">{{ messages[i]['role'] }}</td>
 					<td>
 						<div class="pre">{{ messages[i]['content'] }}</div>
 					</td>
-					<td>{{ tokens[i] }}</td>
+					<!--<td>{{ tokens[i] }}</td>-->
 				</tr>
 				{% endfor %}
 

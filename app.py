@@ -7,15 +7,16 @@ from lib import DictArrayManager
 import importlib
 import os
 import csv
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 app.jinja_env.auto_reload = True
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
-if not OPENAI_API_KEY:
-    with open('openai.api_key.txt', 'r') as f:
-        OPENAI_API_KEY = f.readline().strip()
+
 openai.api_key = OPENAI_API_KEY
 
 # Set the number of past tokens to send with the current query
@@ -38,7 +39,7 @@ def reset():
     importlib.reload(openai)
     openai.api_key = OPENAI_API_KEY
     messages.clear()
-    messages.add("system", "You are a helpful assistant")
+    messages.add("system", "You are a medical researcher, specialized in neuro-otology and skew deviation. You are to act as an assistant to a young doctor writing a paper to be published in the journal 'Neurology'.You have a superb attention to detail and will help in what you can")
 
 def process_request(request):
     model = request.form["model"]
