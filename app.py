@@ -8,22 +8,36 @@ import importlib
 import os
 import csv
 from dotenv import load_dotenv
+from prompts import system_prompt
+from utils import get_context, count_tokens, past_reflect, CHAT_API_PARAMS
+import pandas as pd
+import numpy as np
 
+print(pd. __version__)
 load_dotenv()
 
 app = Flask(__name__)
 app.jinja_env.auto_reload = True
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 
+
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
+
+
+document_chunks = pd.read_csv('data/chunked_texts.csv')
+embeddings_pkl = pd.read_pickle('data/embeddings.pkl')
 
 openai.api_key = OPENAI_API_KEY
 
 # Set the number of past tokens to send with the current query
 # rounds to the nearest whole message
-history_max_tokens = 1024
+history_max_tokens = 14000
 
+global messages
 messages = DictArrayManager()
+messages.add("system", system_prompt)
+
+full_context = []
 
 @app.route("/", methods=("GET", "POST"))
 def index():
@@ -31,7 +45,7 @@ def index():
         if 'reset' in request.form:
             reset()
         elif len(request.form["query"]) > 0:
-            return process_request(request)
+            return process_request(request,full_context)
     return render_template("index.html", anchor='query', messages=messages.array, tokens=messages.tokens, n=len(messages.array))
 
 def reset():
@@ -39,16 +53,45 @@ def reset():
     importlib.reload(openai)
     openai.api_key = OPENAI_API_KEY
     messages.clear()
-    messages.add("system", "You are a medical researcher, specialized in neuro-otology and skew deviation. You are to act as an assistant to a young doctor writing a paper to be published in the journal 'Neurology'.You have a superb attention to detail and will help in what you can")
+    full_context = []
+    messages.add("system", system_prompt)
 
-def process_request(request):
+def process_request(request,full_context):
+    global messages
     model = request.form["model"]
-    messages.add("user", request.form["query"])
-    messages.truncate(history_max_tokens)
+    user_message = request.form["query"]+'skew deviation'
+    messages.add("user", user_message)
+    context = get_context(user_message,embeddings_pkl,document_chunks)
     try:
-        response = openai.ChatCompletion.create(model=model, messages=messages.array)
+        context_messages = messages     
+        if len(full_context) > 0:
+            full_context = list(set(full_context.extend(context)))
+            context = ''
+            for chunk in full_context:
+                context = context+chunk
+        else:
+            full_context = context
+            temp = ''
+            for chunk in context:
+                temp = temp+chunk
+            context = temp
+        context = '```'+context+'```'
+        context_messages.add("system", context)
+        response = openai.ChatCompletion.create(model=model, messages=context_messages.array, **CHAT_API_PARAMS)
         response_message = response.choices[0].message["content"]
         messages.add("assistant", response_message)
+        tokens = 0
+        history_max_tokens = 14000
+        for message in full_context:
+            tokens += count_tokens(context)
+            tokens += count_tokens(message)
+            if tokens > history_max_tokens:
+                reflection = past_reflect(context_messages.array)
+                full_context = reflection
+                break
+        tokens = 0
+
+        
     except Exception as e:
         exc_type, exc_value, exc_traceback = sys.exc_info()
         lines = traceback.format_exception(exc_type, exc_value, exc_traceback)

@@ -17,7 +17,7 @@ class DictArrayManager:
 		self.sessionid = shortuuid.uuid()
 
 	def add(self, role, content):
-		self.array.append({'role': role, 'content': content})
+		self.array.append({'role': role, 'content': str(content)})
 		num_tokens = len(encoding.encode(role + " " + content))
 		self.tokens.append(num_tokens)
 		self.log_latest()

@@ -122,6 +122,10 @@ th {
   color: white;
   text-align: left;
 }
+  
+tr {
+  background-color: #840000;
+}
 
 tr:nth-child(even) {
   background-color: #840000;
