@@ -15,7 +15,7 @@ import numpy as np
 
 print(pd. __version__)
 # load_dotenv()
-OPENAI_API_KEY = os.environ['OPENAI_API_KEY']
+# OPENAI_API_KEY = os.environ['OPENAI_API_KEY']
 
 app = Flask(__name__)
 app.jinja_env.auto_reload = True
