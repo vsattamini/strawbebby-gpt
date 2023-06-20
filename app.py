@@ -15,20 +15,22 @@ import numpy as np
 
 print(pd. __version__)
 # load_dotenv()
-# OPENAI_API_KEY = os.environ['OPENAI_API_KEY']
+#OPENAI_API_KEY = os.environ['OPENAI_API_KEY']
 
 app = Flask(__name__)
 app.jinja_env.auto_reload = True
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 
-OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
+# OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
 
 
 document_chunks = pd.read_csv('data/chunked_texts.csv')
 embeddings_pkl = pd.read_pickle('data/embeddings.pkl')
 
-openai.api_key = OPENAI_API_KEY
+# openai.api_key = OPENAI_API_KEY
 
 # Set the number of past tokens to send with the current query
 # rounds to the nearest whole message
